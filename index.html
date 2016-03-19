@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conrad Godfrey</title>
+    <link href='main.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto:300,,400,500,700' rel='stylesheet' type='text/css'>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+    <div id="video-cv-title-container">
+        <h1>green-screen.js</h1>
+        <h2>In-browser Chroma Key Compositing</h2>
+    </div>
+    <div class="video-background">
+        <div class="videos">
+            <div class="video-container">
+                <div class="video-overlay"></div>
+                <video id="myVideo">
+                    <source src="test_original.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="video-container">
+                <div class="video-overlay"></div>
+                <video id="myVideoMask">
+                    <source src="test_mask.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div id="canvas-container"> 
+                <canvas id="canvas" width="600px" height="338px"></canvas>
+            </div>
+        </div>
+        <button id="play"> play/pause</button>
+    </div>
+
+    <div id="footer">
+        <div id="copyright">
+            <p>COPYRIGHT © 2015 CONRAD GODFREY</p>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
