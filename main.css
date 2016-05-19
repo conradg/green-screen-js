@@ -10,12 +10,34 @@ canvas{
     background: url(orange.jpg);
 }
 
+main {
+    margin: 0 20px;
+    max-width: 600px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-family: Open Sans;
+}
+
+
+a{
+  text-decoration:none;
+  color: hsla(114,42%,14%,1);
+}
+
+a:hover{
+  text-shadow: 0 0  0.4px hsla(114,42%,14%,1);
+}
+
+li{
+  margin-bottom:20px
+}
 .video-background{
     position: static;
-    background-color:hsla(114,54%,22%,1);
+    background-color: hsl(114, 41%, 33%);
     width:100%;
-    padding:20px;
-    margin:0;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 77px 0 0 0;
     text-align: center;
 }
 
@@ -85,7 +107,7 @@ h2{
     font-size: 24px;
     text-align: center;
     color:#ffffff;
-    border-top:   1px solid hsla(114,24%,76%,1); 
+    border-top:   1px solid hsla(114,24%,76%,1);
     width:-webkit-fit-content;
     margin:0 auto;
     padding-top: 25px;
@@ -103,8 +125,10 @@ h2{
 
 h3{
     font-size: 36px;
-    padding-left: 1em;
+    padding-bottom:20px;
+    color:white;
     margin:0;
+    font-weight:500;
 }
 
 
@@ -135,7 +159,7 @@ nav{
 
 nav a{
     padding: 0 0.2em;
-    
+
 }
 
 nav a:link{

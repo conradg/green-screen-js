@@ -4,14 +4,76 @@
     <title>Conrad Godfrey</title>
     <link href='main.css' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lobster|Roboto:300,,400,500,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 </head>
 <body>
     <div id="video-cv-title-container">
         <h1>green-screen.js</h1>
         <h2>In-browser Chroma Key Compositing</h2>
+        <main>
+        <p>
+        Presented here is a proof of concept of a chroma key library I'm working on.
+        </p>
+        <p>
+        Chroma keying, or "green-screening" allows videographers to remove solidly
+        colored backgrounds from videos. It is used across the film industry
+        to place actors on top of backdrops that would be otherwise difficult/impossible to film
+        on location.
+        </p>
+        <p>
+        No one has yet provided a means of running this process in-browser, and
+        I think that's for a number of reasons.
+        </p>
+        <ul>
+          <li>The HTML5 canvas technology required is still relatively new and experimental,
+              and it's only just become supported across all browsers</li>
+          <li>It might not be obvious what applications there are, but I think there are
+            several compelling use cases. For example: a video avatar that helps old
+            people navigate websites, it could walk across the page and point
+            out what various buttons did. It might just end up being Clippy 2.0 but
+            you never know until you try.
+          </li>
+          <li>
+            Speed of computers. This one is probably one of the main reasons, but the
+            rate at which both mobiles and computers have sped up has meant this largely isn't an issue.
+          </li>
+        </ul>
+
+        <p>
+          There are two distinct methods of rendering green screen in browser.
+        </p>
+        <p>The first method "pre-render" is to use two videos, one with the
+          unaltered green screen  footage, and the other with a pre-rendered black
+          and white chroma-key mask highlighting which areas of the video are to be removed.
+          This mask can be generated using a professional video editing program such as
+          Adobe Premiere, Final Cut or Sony Vegas. This has the downside that the
+          user must have access to these, often expensive, softwares, but the benefit
+          of a much higher quality output.
+        </p>
+        <p>
+          The second method, "live render" involves determining the color of each pixel using
+          the canvas API, and then using that information to make a decision on
+          how it's opacity should be set. This is method is lower quality, as
+          the computational power required to check a few million pixels is quite
+          demanding. It can result in choppy video, and incorrectly rendered areas.
+        </p>
+        <p>
+          I'd like to think of some heuristics to speed up the live rendering process,
+          and am also currently thinking I might use some sort of quadtree segmentation
+          that starts pre-processing as soon as the page loads, and stores the data in
+          some structure to be accessed in sync with the video playback, but
+          my work on that so far suggests it will be difficult.
+        </p>
+        <p>
+          Any suggestions are welcome! Drop me an e-mail if you have my details, or
+          register an <a href="https://github.com/conradg/green-screen-js/issues">issue</a>
+          on my Github page if not.
+        </p>
+      </main>
     </div>
     <div class="video-background">
+        <h3>Pre-render</h3>
         <div class="videos">
             <div class="video-container">
                 <div class="video-overlay"></div>
@@ -25,14 +87,15 @@
                     <source src="test_mask.mp4" type="video/mp4">
                 </video>
             </div>
-            <div id="canvas-container"> 
+            <div id="canvas-container">
                 <canvas id="canvas" width="600px" height="338px"></canvas>
             </div>
         </div>
         <button id="play"> play/pause</button>
     </div>
-  
-    <div class="video-background" style="background-color:green" >
+
+    <div class="video-background" >
+        <h3>Live render</h3>
         <div class="videos">
             <div class="video-container">
                 <div class="video-overlay"></div>
@@ -40,7 +103,7 @@
                     <source src="shia.mp4" type="video/mp4">
                 </video>
             </div>
-            <div id="canvas-container"> 
+            <div id="canvas-container">
                 <canvas id="shia-canvas" width="600px" height="338px"></canvas>
             </div>
         </div>
