@@ -31,7 +31,21 @@
         </div>
         <button id="play"> play/pause</button>
     </div>
-
+  
+    <div class="video-background" style="background-color:green" >
+        <div class="videos">
+            <div class="video-container">
+                <div class="video-overlay"></div>
+                <video id="shia-vid">
+                    <source src="shia.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div id="canvas-container"> 
+                <canvas id="shia-canvas" width="600px" height="338px"></canvas>
+            </div>
+        </div>
+        <button onclick="shia.togglePlayback()"> play/pause</button>
+    </div>
     <div id="footer">
         <div id="copyright">
             <p>COPYRIGHT © 2015 CONRAD GODFREY</p>

@@ -15,6 +15,104 @@ var playable = false; // set this to true when enough of the video is analysed
 
 var all_regions = [] //build this up while analysed
 
+var threshhold = 140;
+function GreenScreen(video_id, canvas_id){
+    this.video = new Video(video_id)
+    
+    this.display_canvas = $(canvas_id)[0]
+    this.back_canvas = document.createElement('canvas'); 
+    
+    this.display_context = this.display_canvas.getContext('2d')
+    this.back_context    = this.back_canvas.getContext('2d')
+
+    this.vheight = this.display_canvas.clientHeight;
+    this.vwidth  = this.display_canvas.clientWidth;
+
+    this.display_canvas.width  = this.back_canvas.width  = vwidth;
+    this.display_canvas.height = this.back_canvas.height = vheight;
+
+    this.analysedSections = {} 
+    
+    this.analyse = function(){
+        
+    }
+    that = this
+    this.video.video.addEventListener('play', function(){that.draw()},false);
+
+   
+    this.draw = function (){
+        console.log("working")
+        this.back_context.drawImage(this.video.video,0,0,this.vwidth,this.vheight);
+         
+        var video_still = this.back_context.getImageData(0,0,this.vwidth,this.vheight);
+
+        var still_data = video_still.data;
+
+        for (var i=0; i<still_data.length; i+=4){
+//            still_data[i+3] = still_data[i+1] > 130 ? 0 : 255;continue;
+            g = still_data[i+1]
+            if (g<130){continue};
+            g = g/255
+            r = still_data[i]/255
+            b = still_data[i+2]/255
+            max = Math.max(r,g,b)
+            min = Math.min(r,g,b)
+
+            
+            l = (min+max)/2
+            
+            if (l > 0.6 || l <0.35)
+                continue
+          
+            delta = max-min
+            s = l < 0.5 ? delta/(max+min) : delta/(2 - max - min)
+
+            if (s < 0.1)
+                continue
+            
+            h = r == max ? (g-b)/delta : g == max ? 2 + (b-r)/delta : 4 + (r-g)/delta
+            
+            h*=60
+
+            if (h<110 || h>150)
+                continue
+
+            still_data[i+3] = 0; 
+
+        }
+        
+        video_still.data = still_data
+
+        this.display_context.putImageData(video_still,0,0);
+        
+        if(this.video.video.paused || this.video.video.ended) return false;
+        setTimeout(function(){that.draw()}, 10);
+    } 
+
+    this.togglePlayback = function(){
+        if (this.video.isPlaying)
+            this.video.pause();
+        else
+            this.video.play();
+    }
+};
+
+function Video(id){
+    this.video = $(id)[0]
+    this.isPlaying = false
+
+    this.pause = function(){
+        this.video.pause();
+        this.isPlaying = false;
+    }
+
+    this.play = function(){
+        this.video.play();
+        this.isPlaying = true;
+    }
+}
+
+
 togglePlayback = function(){
 
     if (playing){
@@ -31,7 +129,6 @@ togglePlayback = function(){
 };
 
 $("#play").click(togglePlayback);
-
 document.addEventListener('DOMContentLoaded', function(){
     video = $("#myVideo")[0];
     mask  = $("#myVideoMask")[0];
@@ -66,6 +163,8 @@ document.addEventListener('DOMContentLoaded', function(){
         //draw(video,canvas);
         draw2(video,mask,context,backContext,maskBackContext);
     },false);
+
+    shia = new GreenScreen("#shia-vid","#shia-canvas")
 
 },false);
 
